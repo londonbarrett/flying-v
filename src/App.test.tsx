@@ -66,4 +66,18 @@ describe('App', () => {
     fireEvent.click(deleteButtons[0])
     expect(screen.queryByText('Todo to Delete')).not.toBeInTheDocument()
   })
+
+  it('should move todos among lanes', () => {
+    render(<App />)
+    const inputs = screen.getAllByPlaceholderText('Enter a title')
+    const firstInput = inputs[0]
+    fireEvent.change(firstInput, { target: { value: 'Test Todo' } })
+    const addButtons = screen.getAllByText('Add')
+    fireEvent.click(addButtons[0])
+    expect(screen.getByText('Test Todo')).toBeInTheDocument()
+    const moveNextButtons = screen.getAllByText('Move to next lane')
+    fireEvent.click(moveNextButtons[0])
+    expect(screen.getByText('Test Todo')).toBeInTheDocument()
+  })
+
 })
