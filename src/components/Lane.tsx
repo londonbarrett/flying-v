@@ -1,14 +1,17 @@
 import { memo } from "react"
+import { Lane } from "../../types"
 import Todo from "./Todo"
 
-export default memo(() => {
+export default memo(({ data }: { data: Lane }) => {
   return (
     <section>
       <header>
-        <h1>Lane</h1>
+        <h1>{data.title}</h1>
       </header>
       <div>
-        <Todo />
+        {Object.values(data.todos).map((todo) => (
+          <Todo key={todo.id} data={todo} />
+        ))}
       </div>
     </section>
   )

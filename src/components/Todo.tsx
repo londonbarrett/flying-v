@@ -1,10 +1,11 @@
-import { memo } from "react"
+import { memo } from 'react'
+import { Todo } from '../../types'
 
-export default memo(() => {
+export default memo(({ data }: { data: Todo }) => {
   return (
     <article>
       <header>
-        <h1>Todo</h1>
+        <h1>{data.title}</h1>
       </header>
     </article>
   )

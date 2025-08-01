@@ -1,10 +1,13 @@
 import Board from "./components/Board"
+import { BoardProvider } from "./hooks/use-board"
 
 function App() {
   return (
-    <main>
-      <Board />
-    </main>
+    <BoardProvider>
+      <main>
+        <Board />
+      </main>
+    </BoardProvider>
   )
 }
 
