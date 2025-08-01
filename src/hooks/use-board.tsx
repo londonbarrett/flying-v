@@ -71,6 +71,19 @@ const reducer = (
           },
         },
       }
+    case 'DELETE_TODO':
+      const { [action.payload.todo.id]: deletedTodo, ...remainingTodos } =
+        state.lanes[action.payload.laneId].todos
+      return {
+        ...state,
+        lanes: {
+          ...state.lanes,
+          [action.payload.laneId]: {
+            ...state.lanes[action.payload.laneId],
+            todos: remainingTodos,
+          },
+        },
+      }
     default:
       return state
   }
@@ -106,5 +119,11 @@ export const useBoard = () => {
     },
     [dispatch],
   )
-  return { board, dispatch, addTodo, updateTodo }
+  const deleteTodo = useCallback(
+    (laneId: string, todo: Todo) => {
+      dispatch({ type: 'DELETE_TODO', payload: { laneId, todo } })
+    },
+    [dispatch],
+  )
+  return { board, addTodo, updateTodo, deleteTodo }
 }

@@ -50,4 +50,20 @@ describe('App', () => {
     fireEvent.click(checkboxes)
     expect(checkboxes).toBeChecked()
   })
+
+  it('should delete a todo', () => {
+    render(<App />)
+    // First add a todo
+    const inputs = screen.getAllByPlaceholderText('Enter a title')
+    const firstInput = inputs[0]
+    fireEvent.change(firstInput, { target: { value: 'Todo to Delete' } })
+    const addButtons = screen.getAllByText('Add')
+    fireEvent.click(addButtons[0])
+    expect(screen.getByText('Todo to Delete')).toBeInTheDocument()
+
+    // Then delete it
+    const deleteButtons = screen.getAllByText('Delete')
+    fireEvent.click(deleteButtons[0])
+    expect(screen.queryByText('Todo to Delete')).not.toBeInTheDocument()
+  })
 })
