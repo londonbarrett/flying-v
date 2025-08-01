@@ -11,7 +11,7 @@ export default memo(({ data }: { data: Lane }) => {
       </header>
       <div>
         {Object.values(data.todos).map((todo) => (
-          <Todo key={todo.id} data={todo} />
+          <Todo key={todo.id} data={todo} laneId={data.id} />
         ))}
       </div>
       <AddTodo laneId={data.id} />

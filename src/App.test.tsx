@@ -24,4 +24,16 @@ describe('App', () => {
     fireEvent.click(addButtons[0]) // Use the first Add button
     expect(screen.getByText('Test Todo')).toBeInTheDocument()
   })
+
+  it('should update a todo', () => {
+    render(<App />)
+    const inputs = screen.getAllByPlaceholderText('Enter a title')
+    const firstInput = inputs[0] // Use the first input (To Do lane)
+    fireEvent.change(firstInput, { target: { value: 'Test Todo' } })
+    const addButtons = screen.getAllByText('Add')
+    fireEvent.click(addButtons[0]) // Use the first Add button
+    const checkboxes = screen.getByLabelText('Test Todo')
+    fireEvent.click(checkboxes)
+    expect(checkboxes).toBeChecked()
+  })
 })

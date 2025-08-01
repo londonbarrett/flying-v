@@ -1,4 +1,10 @@
-import { createContext, Dispatch, useCallback, useContext, useReducer } from 'react'
+import {
+  createContext,
+  Dispatch,
+  useCallback,
+  useContext,
+  useReducer,
+} from 'react'
 import { Board, Todo } from '../../types'
 
 const initialState: Board = {
@@ -29,18 +35,38 @@ const BoardContext = createContext<{
   dispatch: () => { },
 })
 
-const reducer = (state: typeof initialState, action: any) => {
+const reducer = (
+  state: typeof initialState,
+  action: {
+    type: string
+    payload: { todo: Todo; laneId: string }
+  },
+) => {
   switch (action.type) {
     case 'ADD_TODO':
       return {
         ...state,
         lanes: {
           ...state.lanes,
-          [action.laneId]: {
-            ...state.lanes[action.laneId],
+          [action.payload.laneId]: {
+            ...state.lanes[action.payload.laneId],
             todos: {
-              ...state.lanes[action.laneId].todos,
-              [action.todo.id]: action.todo,
+              ...state.lanes[action.payload.laneId].todos,
+              [action.payload.todo.id]: action.payload.todo,
+            },
+          },
+        },
+      }
+    case 'UPDATE_TODO':
+      return {
+        ...state,
+        lanes: {
+          ...state.lanes,
+          [action.payload.laneId]: {
+            ...state.lanes[action.payload.laneId],
+            todos: {
+              ...state.lanes[action.payload.laneId].todos,
+              [action.payload.todo.id]: action.payload.todo,
             },
           },
         },
@@ -70,9 +96,15 @@ export const useBoard = () => {
   }
   const addTodo = useCallback(
     (laneId: string, todo: Todo) => {
-      dispatch({ type: 'ADD_TODO', laneId, todo })
+      dispatch({ type: 'ADD_TODO', payload: { laneId, todo } })
     },
     [dispatch],
   )
-  return { board, dispatch, addTodo }
+  const updateTodo = useCallback(
+    (laneId: string, todo: Todo) => {
+      dispatch({ type: 'UPDATE_TODO', payload: { laneId, todo } })
+    },
+    [dispatch],
+  )
+  return { board, dispatch, addTodo, updateTodo }
 }
