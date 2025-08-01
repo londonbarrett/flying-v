@@ -1,5 +1,5 @@
-import { createContext, Dispatch, useContext, useReducer } from 'react'
-import { Board } from '../../types'
+import { createContext, Dispatch, useCallback, useContext, useReducer } from 'react'
+import { Board, Todo } from '../../types'
 
 const initialState: Board = {
   lanes: {
@@ -31,6 +31,20 @@ const BoardContext = createContext<{
 
 const reducer = (state: typeof initialState, action: any) => {
   switch (action.type) {
+    case 'ADD_TODO':
+      return {
+        ...state,
+        lanes: {
+          ...state.lanes,
+          [action.laneId]: {
+            ...state.lanes[action.laneId],
+            todos: {
+              ...state.lanes[action.laneId].todos,
+              [action.todo.id]: action.todo,
+            },
+          },
+        },
+      }
     default:
       return state
   }
@@ -54,5 +68,11 @@ export const useBoard = () => {
   if (!board || !dispatch) {
     throw new Error('useBoard must be used within a BoardProvider')
   }
-  return { board, dispatch }
+  const addTodo = useCallback(
+    (laneId: string, todo: Todo) => {
+      dispatch({ type: 'ADD_TODO', laneId, todo })
+    },
+    [dispatch],
+  )
+  return { board, dispatch, addTodo }
 }

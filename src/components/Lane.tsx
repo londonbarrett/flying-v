@@ -1,5 +1,6 @@
 import { memo } from "react"
 import { Lane } from "../../types"
+import AddTodo from "./AddTodo"
 import Todo from "./Todo"
 
 export default memo(({ data }: { data: Lane }) => {
@@ -13,6 +14,7 @@ export default memo(({ data }: { data: Lane }) => {
           <Todo key={todo.id} data={todo} />
         ))}
       </div>
+      <AddTodo laneId={data.id} />
     </section>
   )
 })
