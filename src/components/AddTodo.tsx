@@ -9,6 +9,10 @@ export default memo(({ laneId }: { laneId: string }) => {
       event.preventDefault()
       const formData = new FormData(event.currentTarget)
       const title = formData.get('title') as string
+      if (!title) {
+        alert('Please enter a title')
+        return
+      }
       addTodo(laneId, {
         id: new Date().getTime().toString(),
         title,

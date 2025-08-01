@@ -25,6 +25,20 @@ describe('App', () => {
     expect(screen.getByText('Test Todo')).toBeInTheDocument()
   })
 
+  it('should not add a todo if the title is empty', () => {
+    const alertMock = jest.spyOn(window, 'alert').mockImplementation(() => { })
+    render(<App />)
+    const inputs = screen.getAllByPlaceholderText('Enter a title')
+    const firstInput = inputs[0] // Use the first input (To Do lane)
+    fireEvent.change(firstInput, { target: { value: '' } })
+    const addButtons = screen.getAllByText('Add')
+    fireEvent.click(addButtons[0])
+    const checkboxes = screen.queryAllByRole('checkbox')
+    expect(checkboxes).toHaveLength(0)
+    expect(alertMock).toHaveBeenCalledWith('Please enter a title')
+    alertMock.mockRestore()
+  })
+
   it('should update a todo', () => {
     render(<App />)
     const inputs = screen.getAllByPlaceholderText('Enter a title')
