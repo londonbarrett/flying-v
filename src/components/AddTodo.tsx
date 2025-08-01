@@ -24,16 +24,17 @@ export default memo(({ laneId }: { laneId: string }) => {
   )
 
   return (
-    <section>
-      <header>
-        <h2>Add a new todo</h2>
+    <section className="bg-gray-50 rounded-lg p-4 border border-gray-200">
+      <header className="mb-3">
+        <h2 className="text-sm font-medium text-gray-700">Add a new todo</h2>
       </header>
-      <form onSubmit={submitHandler}>
+      <form onSubmit={submitHandler} className="space-y-3">
         <input
           id="title"
           name="title"
           placeholder="Enter a title"
           type="text"
+          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
         />
         <Button label="Add" type="submit" />
       </form>

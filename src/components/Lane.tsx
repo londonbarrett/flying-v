@@ -5,11 +5,11 @@ import Todo from "./Todo"
 
 export default memo(({ data }: { data: Lane }) => {
   return (
-    <section>
-      <header>
-        <h1>{data.title}</h1>
+    <section className="bg-white rounded-lg shadow-lg p-6 min-w-80 max-w-80">
+      <header className="mb-6">
+        <h1 className="text-xl font-semibold text-gray-800">{data.title}</h1>
       </header>
-      <div>
+      <div className="space-y-3 mb-6">
         {Object.values(data.todos).map((todo) => (
           <Todo key={todo.id} data={todo} laneId={data.id} />
         ))}

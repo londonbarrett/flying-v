@@ -30,28 +30,33 @@ export default memo(
       deleteTodo(laneId, data)
     }, [deleteTodo, addTodo, data, laneId])
     return (
-      <div>
-        <div>
+      <div className="bg-white rounded-lg p-4 border border-gray-200 hover:shadow-md transition-shadow">
+        <div className="flex items-start justify-between mb-3">
+          <div className="flex items-start space-x-3 flex-1">
+            <input
+              id={data.id}
+              type="checkbox"
+              checked={data.completed}
+              onChange={changeHandler}
+              className="mt-1 h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+            />
+            <label htmlFor={data.id} className={`flex-1 text-sm ${data.completed ? 'line-through text-gray-500' : 'text-gray-800'}`}>
+              {data.title}
+            </label>
+          </div>
+          <Button label="Delete" onClick={deleteHandler} />
+        </div>
+        <div className="flex gap-2">
           {laneId !== 'todo' && (
             <Button
-              label="Move to previous lane"
+              label="← Previous"
               onClick={movePreviousHandler}
             />
           )}
           {laneId !== 'done' && (
-            <Button label="Move to next lane" onClick={moveNextHandler} />
+            <Button label="Next →" onClick={moveNextHandler} />
           )}
         </div>
-        <label htmlFor={data.id}>
-          {data.title}
-          <input
-            id={data.id}
-            type="checkbox"
-            checked={data.completed}
-            onChange={changeHandler}
-          />
-        </label>
-        <Button label="Delete" onClick={deleteHandler} />
       </div>
     )
   },
